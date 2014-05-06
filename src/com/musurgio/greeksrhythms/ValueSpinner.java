@@ -62,7 +62,7 @@ public class ValueSpinner extends LinearLayout {
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		this.addView(incButton, new MarginLayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-
+		this.setOrientation(LinearLayout.VERTICAL);
 		valueView.setText(getValueString());
 		valueView.setTextSize(20);
 		valueView.setGravity(Gravity.CENTER);

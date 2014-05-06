@@ -6,7 +6,6 @@
 
     <com.musurgio.greeksrhythms.ValueSpinner
         android:id="@+id/valueSpinner1"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
     </com.musurgio.greeksrhythms.ValueSpinner>
