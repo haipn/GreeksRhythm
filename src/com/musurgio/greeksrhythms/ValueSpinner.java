@@ -2,6 +2,8 @@ package com.musurgio.greeksrhythms;
 
 import java.util.ArrayList;
 
+import kankan.wheel.widget.WheelView;
+import kankan.wheel.widget.adapters.NumericWheelAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Paint;
@@ -9,14 +11,11 @@ import android.os.Build;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class ValueSpinner extends LinearLayout {
 	public static final int NUMBER = 0;
@@ -33,7 +32,8 @@ public class ValueSpinner extends LinearLayout {
 	// ---
 	Button incButton;
 	Button decButton;
-	TextView valueView;
+	LinearLayout llWheel;
+	private WheelView valueView;
 
 	public ValueSpinner(Context context) {
 		super(context);
@@ -54,19 +54,16 @@ public class ValueSpinner extends LinearLayout {
 	private void init() {
 
 		decButton = new Button(getContext());
-		valueView = new TextView(getContext());
 		incButton = new Button(getContext());
 		this.addView(decButton, new MarginLayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		valueView = initWheel();
 		this.addView(valueView, new MarginLayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		this.addView(incButton, new MarginLayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		this.setOrientation(LinearLayout.VERTICAL);
-		valueView.setText(getValueString());
-		valueView.setTextSize(20);
-		valueView.setGravity(Gravity.CENTER);
-		paint.setTextSize(valueView.getTextSize());
+
 		reCalculateWidthAndCaption();
 
 		decButton.setOnTouchListener(new View.OnTouchListener() {
@@ -90,18 +87,40 @@ public class ValueSpinner extends LinearLayout {
 
 	}
 
+	private WheelView initWheel() {
+		WheelView wheel = new WheelView(getContext());
+		SpeedAdapter speedAdapter = new SpeedAdapter(getContext(), 245, 5);
+		wheel.setViewAdapter(speedAdapter);
+		wheel.setCurrentItem((int) (Math.random() * 10));
+		wheel.setVisibleItems(1);
+		// wheel.addChangingListener(changedListener);
+		// wheel.addScrollingListener(scrolledListener);
+		wheel.setCyclic(true);
+		wheel.setInterpolator(new AnticipateOvershootInterpolator());
+		return wheel;
+	}
+
+	/**
+	 * Returns wheel by Id
+	 * 
+	 * @param id
+	 *            the wheel Id
+	 * @return the wheel with passed Id
+	 */
+	private WheelView getWheel(int id) {
+		return (WheelView) findViewById(id);
+	}
+
 	protected void touchSet(int i) {
 		int p = i ^ getOrientation();
 		switch (p) {
 		case 0:
-			value--;
+			valueView.setCurrentItem(valueView.getCurrentItem() - 1, true);
 			break;
 		case 1:
-			value++;
+			valueView.setCurrentItem(valueView.getCurrentItem() + 1, true);
 			break;
 		}
-		value = value < min ? min : value > max ? max : value;
-		valueView.setText(getValueString());
 		invalidate();
 	}
 
@@ -149,22 +168,18 @@ public class ValueSpinner extends LinearLayout {
 		}
 		switch (getOrientation()) {
 		case LinearLayout.HORIZONTAL:
-			decButton.setText("-");
-			incButton.setText("+");
 			lp.width += 10;
 			lp.leftMargin = 5;
 			lp.rightMargin = 5;
 			break;
 		case LinearLayout.VERTICAL:
-			decButton.setText("+");
-			incButton.setText("-");
-			lp.height = 60;
+			lp.height = 100;
+			lp.width = MarginLayoutParams.MATCH_PARENT;
 			lp.topMargin = 5;
 			lp.bottomMargin = 5;
 			break;
 		}
 
-		valueView.setText(getValueString());
 	}
 
 	public void setStyle(int style) {
@@ -196,7 +211,6 @@ public class ValueSpinner extends LinearLayout {
 
 	public void setValue(int value) {
 		this.value = value;
-		valueView.setText(getValueString());
 	}
 
 	public void setValueString(String[] valueString) {
@@ -229,22 +243,54 @@ public class ValueSpinner extends LinearLayout {
 		reCalculateWidthAndCaption();
 	}
 
+	private class SpeedAdapter extends NumericWheelAdapter {
+		// Items step value
+		private int step;
+
+		/**
+		 * Constructor
+		 */
+		public SpeedAdapter(Context context, int maxValue, int step) {
+			super(context, 0, maxValue / step);
+			this.step = step;
+
+			setItemResource(R.layout.wheel_text_item);
+			setItemTextResource(R.id.text);
+		}
+
+		/**
+		 * Sets units
+		 */
+		public void setUnits(String units) {
+			// this.units = units;
+		}
+
+		@Override
+		public CharSequence getItemText(int index) {
+			if (index >= 0 && index < getItemsCount()) {
+				int value = index * step;
+				return Integer.toString(value);
+			}
+			return null;
+		}
+	}
+
 	public void setNextBackgroundResource(int background) {
 		incButton.setBackgroundResource(background);
-		MarginLayoutParams lp = (MarginLayoutParams) incButton
-				.getLayoutParams();
-		incButton.setText("");
-		lp.width = 50;
-		lp.height = 50;
+		// MarginLayoutParams lp = (MarginLayoutParams) incButton
+		// .getLayoutParams();
+		// incButton.setText("");
+		// lp.width = 50;
+		// lp.height = 50;
 	}
 
 	public void setPrevBackgroundResource(int background) {
 		decButton.setBackgroundResource(background);
-		MarginLayoutParams lp = (MarginLayoutParams) decButton
-				.getLayoutParams();
-		decButton.setText("");
-		lp.width = 50;
-		lp.height = 50;
+		// MarginLayoutParams lp = (MarginLayoutParams) decButton
+		// .getLayoutParams();
+		// decButton.setText("");
+		// lp.width = 50;
+		// lp.height = 50;
 	}
 
 }
