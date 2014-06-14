@@ -1,5 +1,14 @@
 <resources>
 
     <string name="app_name">Greeks Rhythms</string>
-
+    <color name="red">#882923</color>
+	<string name="rumba_greek">ρούμπα</string>
+	<string name="kamilieriko">Καμιλιέρικο</string>
+	<string name="karsilamas">Καρσιλαμάς</string>
+	<string name="nisiotiko">νησιώτικο </string>
+	<string name="xasapiko">χασάπικο</string>
+	<string name="valse">βάλς</string>
+	<string name="tsifteteli">Τσιφτετέλι</string>
+	<string name="sixeight">6/8</string>
+	<string name="zeibekiko">ζειμπέκικο</string>
 </resources>

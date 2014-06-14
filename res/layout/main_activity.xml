@@ -4,16 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.musurgio.greeksrhythms.ValueSpinner
-        android:id="@+id/valueSpinner1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content" >
-    </com.musurgio.greeksrhythms.ValueSpinner>
+<!--     <com.musurgio.greeksrhythms.ValueSpinner -->
+<!--         android:id="@+id/valueSpinner1" -->
+<!--         android:layout_width="100dp" -->
+<!--         android:layout_height="wrap_content" > -->
+<!--     </com.musurgio.greeksrhythms.ValueSpinner> -->
 
-    <com.musurgio.greeksrhythms.ValueSpinner
-        android:id="@+id/valueSpinner2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content" >
-    </com.musurgio.greeksrhythms.ValueSpinner>
+<!--     <com.musurgio.greeksrhythms.ValueSpinner -->
+<!--         android:id="@+id/valueSpinner2" -->
+<!--         android:layout_width="100dp" -->
+<!--         android:layout_height="wrap_content" > -->
+<!--     </com.musurgio.greeksrhythms.ValueSpinner> -->
+
+    <GridView
+        android:id="@+id/gvRhythm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="4" >
+    </GridView>
 
 </LinearLayout>
