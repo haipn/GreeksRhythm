@@ -2,24 +2,27 @@ package com.musurgio.greeksrhythms;
 
 import java.util.ArrayList;
 
-import com.musurgio.greeksrhythms.ValueSpinner.OnRhythmClickListener;
-
 import android.app.Activity;
-import android.net.rtp.RtpStream;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.GridView;
 
+import com.musurgio.greeksrhythms.ValueSpinner.OnRhythmClickListener;
+
 public class MainActivity extends Activity implements OnRhythmClickListener {
 	GridView mGvRhythm;
 
 	ArrayList<ValueSpinner> mListRhythm;
 	GridAdapter mAdapter;
-	ValueSpinner spn1;
-	ValueSpinner spn2;
+
+	private MediaPlayer mPlayer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 
 			}
 		});
+		mPlayer = new MediaPlayer();
 		// spn1 = (ValueSpinner) findViewById(R.id.valueSpinner1);
 		// spn1.setNextBackgroundResource(R.drawable.btn_down);
 		// spn1.setPrevBackgroundResource(R.drawable.btn_up);
@@ -151,7 +155,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 	}
 
 	@Override
-	public void onRhythmClick(int id, String fileName) {
+	public void onRhythmClick(int id) {
 		for (int i = 0; i < mListRhythm.size(); i++) {
 			if (i == id)
 				mListRhythm.get(i).setIsSelect(true);
@@ -160,4 +164,65 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		}
 		mAdapter.notifyDataSetChanged();
 	}
+
+	@Override
+	public void onRhythmChange(String filename) {
+		playBeep(filename);
+	}
+
+	public void playBeep(String name) {
+		try {
+
+			if (mPlayer.isPlaying()) {
+				mPlayer.stop();
+				mPlayer.release();
+				mPlayer = new MediaPlayer();
+			}
+
+			AssetFileDescriptor descriptor = getAssets().openFd(name);
+			mPlayer.setDataSource(descriptor.getFileDescriptor(),
+					descriptor.getStartOffset(), descriptor.getLength());
+			descriptor.close();
+
+			mPlayer.prepare();
+			mPlayer.setLooping(true);
+			mPlayer.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_stop) {
+			for (int i = 0; i < mListRhythm.size(); i++) {
+				mListRhythm.get(i).setIsSelect(false);
+				mAdapter.notifyDataSetChanged();
+				try {
+					if (mPlayer != null && mPlayer.isPlaying()) {
+						mPlayer.stop();
+						mPlayer.release();
+						mPlayer = new MediaPlayer();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 }

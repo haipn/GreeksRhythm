@@ -37,7 +37,8 @@ public class ValueSpinner extends LinearLayout {
 	private boolean mIsSelect;
 
 	public interface OnRhythmClickListener {
-		public void onRhythmClick(int id, String fileName);
+		public void onRhythmClick(int id);
+		public void onRhythmChange(String filename);
 	}
 	
 	private OnRhythmClickListener mCallBack;
@@ -73,6 +74,7 @@ public class ValueSpinner extends LinearLayout {
 		this.addView(incButton, new MarginLayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		mTvName = new TextView(getContext());
+		mTvName.setGravity(Gravity.CENTER);
 		this.addView(mTvName, new MarginLayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT));
 		this.setOrientation(LinearLayout.VERTICAL);
@@ -85,7 +87,7 @@ public class ValueSpinner extends LinearLayout {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					touchSet(0);
 				}
-				mCallBack.onRhythmClick(mIdRhythm, "");
+				mCallBack.onRhythmClick(mIdRhythm);
 				return false;
 			}
 		});
@@ -95,7 +97,7 @@ public class ValueSpinner extends LinearLayout {
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					touchSet(1);
 				}
-				mCallBack.onRhythmClick(mIdRhythm, "");
+				mCallBack.onRhythmClick(mIdRhythm);
 				return false;
 			}
 		});
@@ -135,7 +137,8 @@ public class ValueSpinner extends LinearLayout {
 			SpeedAdapter adapter = (SpeedAdapter) wheel.getViewAdapter();
 			Log.d("haipn", "new value:" + (newValue * 2 + adapter.min)
 					+ " oldValue:" + (oldValue * 2 + adapter.min));
-			// }
+			int value = newValue * 2 + adapter.min;
+			mCallBack.onRhythmChange(mFileName + "_" + value + ".wav");
 		}
 	};
 
