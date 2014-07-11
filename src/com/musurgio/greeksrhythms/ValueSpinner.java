@@ -31,6 +31,7 @@ public class ValueSpinner extends LinearLayout {
 	Button incButton;
 	Button decButton;
 	TextView mTvName;
+	boolean isTop = false;
 
 	private WheelView valueView;
 
@@ -38,16 +39,19 @@ public class ValueSpinner extends LinearLayout {
 
 	public interface OnRhythmClickListener {
 		public void onRhythmClick(int id);
+
 		public void onRhythmChange(String filename);
 	}
-	
+
 	private OnRhythmClickListener mCallBack;
+
 	public void setCallBack(OnRhythmClickListener mCallBack) {
 		this.mCallBack = mCallBack;
 	}
 
-	public ValueSpinner(Context context) {
+	public ValueSpinner(Context context, boolean top) {
 		super(context);
+		isTop = top;
 		init();
 	}
 
@@ -63,7 +67,7 @@ public class ValueSpinner extends LinearLayout {
 	}
 
 	private void init() {
-
+		this.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
 		decButton = new Button(getContext());
 		incButton = new Button(getContext());
 		this.addView(decButton, new MarginLayoutParams(
@@ -75,8 +79,13 @@ public class ValueSpinner extends LinearLayout {
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		mTvName = new TextView(getContext());
 		mTvName.setGravity(Gravity.CENTER);
-		this.addView(mTvName, new MarginLayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT));
+		if (isTop) {
+			this.addView(mTvName, 0, new MarginLayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		} else {
+			this.addView(mTvName, new MarginLayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		}
 		this.setOrientation(LinearLayout.VERTICAL);
 		this.setGravity(Gravity.CENTER_HORIZONTAL);
 		reCalculateWidthAndCaption();

@@ -48,7 +48,7 @@ public class GridAdapter extends BaseAdapter {
 					R.color.red));
 		else
 			arg1.setBackgroundColor(mContext.getResources().getColor(
-					android.R.color.white));
+					android.R.color.darker_gray));
 		return arg1;
 	}
 

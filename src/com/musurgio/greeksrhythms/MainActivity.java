@@ -71,7 +71,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 
 	private ArrayList<ValueSpinner> setListRhythm() {
 		ArrayList<ValueSpinner> ret = new ArrayList<ValueSpinner>();
-		ValueSpinner rhythm1 = new ValueSpinner(this);
+		ValueSpinner rhythm1 = new ValueSpinner(this, true);
 		rhythm1.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm1.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm1.setMinMax(70, 90);
@@ -82,7 +82,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm1.setDisplayName(getString(R.string.kamilieriko));
 		ret.add(rhythm1);
 
-		ValueSpinner rhythm2 = new ValueSpinner(this);
+		ValueSpinner rhythm2 = new ValueSpinner(this, true);
 		rhythm2.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm2.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm2.setMinMax(90, 110);
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm2.setDisplayName(getString(R.string.karsilamas));
 		ret.add(rhythm2);
 
-		ValueSpinner rhythm3 = new ValueSpinner(this);
+		ValueSpinner rhythm3 = new ValueSpinner(this, true);
 		rhythm3.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm3.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm3.setMinMax(110, 130);
@@ -102,7 +102,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm3.setDisplayName(getString(R.string.nisiotiko));
 		ret.add(rhythm3);
 
-		ValueSpinner rhythm4 = new ValueSpinner(this);
+		ValueSpinner rhythm4 = new ValueSpinner(this, true);
 		rhythm4.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm4.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm4.setMinMax(80, 100);
@@ -112,7 +112,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm4.setDisplayName(getString(R.string.rumba_greek));
 		ret.add(rhythm4);
 
-		ValueSpinner rhythm5 = new ValueSpinner(this);
+		ValueSpinner rhythm5 = new ValueSpinner(this, false);
 		rhythm5.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm5.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm5.setMinMax(80, 120);
@@ -122,7 +122,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm5.setDisplayName(getString(R.string.sixeight));
 		ret.add(rhythm5);
 
-		ValueSpinner rhythm6 = new ValueSpinner(this);
+		ValueSpinner rhythm6 = new ValueSpinner(this, false);
 		rhythm6.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm6.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm6.setMinMax(104, 130);
@@ -132,7 +132,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm6.setDisplayName(getString(R.string.tsifteteli));
 		ret.add(rhythm6);
 
-		ValueSpinner rhythm7 = new ValueSpinner(this);
+		ValueSpinner rhythm7 = new ValueSpinner(this, false);
 		rhythm7.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm7.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm7.setMinMax(100, 130);
@@ -142,7 +142,7 @@ public class MainActivity extends Activity implements OnRhythmClickListener {
 		rhythm7.setDisplayName(getString(R.string.valse));
 		ret.add(rhythm7);
 
-		ValueSpinner rhythm8 = new ValueSpinner(this);
+		ValueSpinner rhythm8 = new ValueSpinner(this, false);
 		rhythm8.setNextBackgroundResource(R.drawable.btn_down);
 		rhythm8.setPrevBackgroundResource(R.drawable.btn_up);
 		rhythm8.setMinMax(90, 120);
